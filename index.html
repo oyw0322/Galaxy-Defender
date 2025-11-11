@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우주 슈팅 게임</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        /* 기존 스타일 유지 */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            background-color: #222;
+            font-family: Arial, sans-serif;
+            position: relative; 
+        }
+        #gameCanvas {
+            border: 1px solid white;
+            background-color: #000;
+        }
+        .overlay-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 3px solid #008CBA;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            z-index: 10; 
+            box-shadow: 0 0 20px rgba(0, 140, 186, 0.7);
+            width: 80%;
+            max-width: 350px;
+        }
+        #gameOverScreen {
+            border: 3px solid red;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+        .action-button {
+            padding: 12px 25px;
+            font-size: 22px;
+            cursor: pointer;
+            margin-top: 10px;
+            background-color: #4CAF50; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+    
+    <!-- 게임 시작 오버레이 화면 -->
+    <div id="startScreen" class="overlay-screen">
+        <h1>🌌 우주 슈팅 게임</h1>
+        <div class="rules-box" style="text-align: left; margin-bottom: 20px; padding: 10px; background-color: rgba(255, 255, 255, 0.1);">
+            <h2>🎮 게임 규칙</h2>
+            <p>**이동:** 방향키 또는 A/D</p>
+            <p>**발사:** 스페이스바</p>
+            <p>**목표:** 적을 처치하고 보스(HP 1000)를 파괴하세요.</p>
+            <p>**특징:** 보스 레이저 공격은 2초 충전 후 발사됩니다.</p>
+        </div>
+        <button id="startButton" class="action-button">게임 시작</button>
+    </div>
+
+    <!-- 게임 오버 화면 -->
+    <div id="gameOverScreen" class="overlay-screen" style="display: none;">
+        <p style="font-size: 30px; color: #FFD700; font-weight: bold;">GAME OVER</p>
+        <p id="finalScore" style="font-size: 18px; color: white; margin-bottom: 20px;"></p>
+        <button id="restartButton" class="action-button">재시작</button>
+    </div>
+
+    <!-- JavaScript 파일은 여기에서 로드하지 않고, 버튼 클릭 시 로드하도록 함 -->
+    <script>
+        // 게임 시작 버튼 클릭 시 게임 로드
+        document.getElementById('startButton').addEventListener('click', function() {
+            // 게임 시작 버튼 숨기기
+            document.getElementById('startScreen').style.display = 'none';
+            
+            // 게임 오버 화면 초기화
+            document.getElementById('gameOverScreen').style.display = 'none';
+
+            // 게임 스크립트 동적으로 로드
+            var script = document.createElement('script');
+            script.src = 'js/space_shooter_v2.js';  // 게임 파일 경로
+            script.onload = function() {
+                // 게임이 로드되면 게임을 시작하는 함수 호출 (예: startGame())
+                if (typeof startGame === 'function') {
+                    startGame();
+                }
+            };
+            document.body.appendChild(script);
+        });
+    </script>
+</body>
+</html>
